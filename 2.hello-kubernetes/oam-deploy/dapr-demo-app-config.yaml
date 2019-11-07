@@ -9,6 +9,8 @@ spec:
     traits:
       - name: ingress
         parameterValues:
+          - name: hostname
+            value: dapr-demo.oam.io        
           - name: path
             value: / 
           - name: service_port
