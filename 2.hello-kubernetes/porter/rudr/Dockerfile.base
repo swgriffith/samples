@@ -1,0 +1,18 @@
+FROM debian:stretch
+
+# Install Azure CLI
+RUN apt-get update -y \
+  && apt-get install git curl wget apt-transport-https lsb-release gnupg -y \
+  && curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null \
+  && AZ_REPO=$(lsb_release -cs) \
+  && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | tee /etc/apt/sources.list.d/azure-cli.list \
+  && apt-get update \
+  && apt-get install azure-cli
+
+ARG BUNDLE_DIR
+COPY . $BUNDLE_DIR
+
+#Install Helm 3
+RUN wget https://get.helm.sh/helm-v3.0.0-rc.2-linux-amd64.tar.gz
+RUN tar -zxvf helm-v3.0.0-rc.2-linux-amd64.tar.gz
+RUN mv linux-amd64/helm /usr/local/bin/helm

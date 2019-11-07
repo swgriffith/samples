@@ -1,0 +1,49 @@
+name: rudr-install
+version: 0.1.0
+description: "Porter installer for Rudr"
+invocationImage: stevegriffith/rudr-install:0.1.0
+tag: stevegriffith/rudr-install:0.1.0
+dockerfile: Dockerfile.base
+
+mixins:
+  - exec
+
+install:
+  - exec: 
+      description: "Clone the Rudr Repo"
+      command: "git"
+      arguments: 
+        - "clone" 
+        - "https://github.com/oam-dev/rudr.git"
+
+  - exec: 
+      description: "Helm Install Rudr"
+      command: "helm"
+      arguments: 
+        - "install" 
+        - "rudr"
+        - "./rudr/charts/rudr" 
+        - "--wait"
+        - "--set"
+        - "image.tag=v1.0.0-alpha.1"     
+
+upgrade:
+  - exec: 
+      description: "Helm Upgrade Rudr"
+      command: "helm"
+      arguments: 
+        - "upgrade" 
+        - "rudr"
+        - "./rudr/charts/rudr" 
+
+uninstall:
+  - exec: 
+      description: "Helm Uninstall Rudr"
+      command: "helm"
+      arguments: 
+        - "delete" 
+        - "rudr"
+
+credentials:
+- name: kubeconfig
+  path: /root/.kube/config
