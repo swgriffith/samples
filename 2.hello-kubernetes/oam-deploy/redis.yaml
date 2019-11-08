@@ -8,4 +8,4 @@ spec:
   - name: redisHost
     value: redis-master:6379
   - name: redisPassword
-    value: AzvO4jQtXD
+    value: <Redis Passwd>
