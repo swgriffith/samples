@@ -77,7 +77,7 @@ spec:
       imagePullPolicy: Always
 ```
 
-Finally, we need the Application Configuration. The app config file is very simple. You just define the configuration name that you're deploying and then specify all of the components that should be included. In this case we're deploying the node app and the python app. For the node app we're going to take advantage of one of the previoulsy defined 'Traits', which are generally managed by IT Operator. The trait we'll use in this case is the 'ingress' trait, which will ensure that our app is wired up to the ingress controller (TODO: Need to fix the ingress controller config).
+Finally, we need the Application Configuration. The app config file is very simple. You just define the configuration name that you're deploying and then specify all of the components that should be included. In this case we're deploying the node app and the python app. For the node app we're going to take advantage of one of the previoulsy defined 'Traits', which are generally managed by IT Operator. The trait we'll use in this case is the 'ingress' trait, which will ensure that our app is wired up to the ingress controller.
 
 ```yaml
 # dapr-demo-app-config.yaml
