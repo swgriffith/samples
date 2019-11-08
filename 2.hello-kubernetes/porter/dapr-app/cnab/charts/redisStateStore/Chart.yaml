@@ -1,0 +1,7 @@
+name: redis-state-store
+home: https://github.com/swgriffith/samples/tree/porter-oam/2.hello-kubernetes
+version: 1.0
+description: Redis State Store
+maintainers: 
+  - name: stevegriffith
+    email: steve.griffith@microsoft.com

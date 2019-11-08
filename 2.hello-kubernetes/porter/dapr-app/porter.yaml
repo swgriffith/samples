@@ -1,0 +1,153 @@
+name: dapr-app-install
+version: 0.1.0
+description: "Porter installer for a demo Dapr Application"
+invocationImage: stevegriffith/dapr-app-install:0.1.0
+tag: stevegriffith/rdapr-app-install:0.1.0
+dockerfile: Dockerfile.base
+
+mixins:
+  - exec
+
+install:
+  - exec: 
+      description: "Initialize the Dapr Runtime on the Cluster"
+      command: "dapr"
+      arguments: 
+        - "init"
+        - "--kubernetes"
+  
+  - exec:
+      description: "Give Dapr some time to start"
+      command: "sleep"
+      arguments:
+        - "50"
+  
+  - exec:
+     description: "Helm3 - Add Stable Repos"
+     command: "helm"
+     arguments:
+       - "repo"
+       - "add"
+       - "stable"
+       - "https://kubernetes-charts.storage.googleapis.com/"
+
+  - exec:
+      description: "Helm3 - Repo Update"
+      command: "helm"
+      arguments:
+        - "repo"
+        - "update"
+
+  - exec:
+      description: "Helm3 - Install Redis"
+      command: "helm"
+      arguments:
+        - "install"
+        - "redis"
+        - "stable/redis"
+        - "--set"
+        - "password={{ bundle.parameters.redisPasswd }}"
+
+  - exec:
+      description: "Helm3 - Create Redis State Store Component"
+      command: "helm"
+      arguments:
+        - "install"
+        - "redis-state-store"
+        - "cnab/charts/redisStateStore"
+        - "--set"
+        - "deploy.redisPasswd={{ bundle.parameters.redisPasswd }}"   
+  
+  - exec:
+      description: "Give Redis some time to start"
+      command: "sleep"
+      arguments:
+        - "2m"
+        
+  - exec:
+      description: "Install Dapr Application Component Specification"
+      command: "kubectl"
+      arguments:
+        - "apply"
+        - "-f"
+        - "cnab/manifests/node-app-component.yaml"
+        - "-f"
+        - "cnab/manifests/python-app-component.yaml"
+        
+  - exec:
+      description: "Install Dapr Application Configuration"
+      command: "kubectl"
+      arguments:
+        - "apply"
+        - "-f"
+        - "cnab/manifests/dapr-demo-app-config.yaml"
+
+upgrade:
+  - exec: 
+      description: "ToDo"
+      command: "echo"
+      arguments: 
+        - "ToDo" 
+
+uninstall:
+  - exec:
+      description: "Uninstall Dapr Application Configuration"
+      command: "kubectl"
+      arguments:
+        - "delete"
+        - "-f"
+        - "cnab/manifests/dapr-demo-app-config.yaml"
+        - "-f"
+        - "cnab/manifests/node-app-component.yaml"
+        - "-f"
+        - "cnab/manifests/python-app-component.yaml"        
+
+  - exec:
+      description: "Helm3 - Uninstall Redis State Store Component"
+      command: "helm"
+      arguments:
+        - "delete"
+        - "redis-state-store"        
+
+  - exec:
+      description: "Helm3 - Uninstall Redis"
+      command: "helm"
+      arguments:
+        - "delete"
+        - "redis"
+
+  # TODO: Figure out why deleting redis doesnt delete the pvcs
+  - exec:
+      description: "Kubect - Delete Redis Persistent Volumes"
+      command: "kubectl"
+      arguments:
+        - "delete"
+        - "pvc"
+        - "redis-data-redis-master-0"
+        - "redis-data-redis-slave-0"
+        - "redis-data-redis-slave-1"       
+
+  - exec:
+      description: "Uninstall Dapr Runtime"
+      command: "dapr"
+      arguments:
+        - "uninstall"
+        - "--kubernetes"
+
+  - exec:
+      description: "Kubect - Delete Dapr App Services"
+      command: "kubectl"
+      arguments:
+        - "delete"
+        - "svc"
+        - "nodeapp-dapr"
+        - "pythonapp-dapr"
+
+
+credentials:
+- name: kubeconfig
+  path: /root/.kube/config
+
+parameters:
+- name: redisPasswd
+  type: string

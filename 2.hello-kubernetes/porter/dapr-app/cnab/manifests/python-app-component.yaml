@@ -1,0 +1,16 @@
+apiVersion: core.oam.dev/v1alpha1
+kind: ComponentSchematic
+metadata:
+  name: pythonapp-v1
+  annotations:
+    dapr.io/enabled: "true"
+    dapr.io/id: "pythonapp"
+spec:
+  workloadType: core.oam.dev/v1alpha1.Worker  
+  containers:
+    - name: python
+      image: dapriosamples/hello-k8s-python
+      labels:
+        app: python    
+      imagePullPolicy: Always
+

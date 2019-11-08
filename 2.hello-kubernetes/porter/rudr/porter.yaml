@@ -9,6 +9,30 @@ mixins:
   - exec
 
 install:
+  - exec:
+     description: "Helm3 - Add Stable Repos"
+     command: "helm"
+     arguments:
+       - "repo"
+       - "add"
+       - "stable"
+       - "https://kubernetes-charts.storage.googleapis.com/"
+
+  - exec:
+      description: "Helm3 - Repo Update"
+      command: "helm"
+      arguments:
+        - "repo"
+        - "update"
+
+  - exec: 
+      description: "Helm3 - Install NGINX"
+      command: "helm"
+      arguments: 
+        - "install" 
+        - "nginx-ingress"
+        - "stable/nginx-ingress"
+
   - exec: 
       description: "Clone the Rudr Repo"
       command: "git"
@@ -17,7 +41,7 @@ install:
         - "https://github.com/oam-dev/rudr.git"
 
   - exec: 
-      description: "Helm Install Rudr"
+      description: "Helm3 - Install Rudr"
       command: "helm"
       arguments: 
         - "install" 
@@ -28,6 +52,34 @@ install:
         - "image.tag=v1.0.0-alpha.1"     
 
 upgrade:
+  - exec:
+     description: "Helm3 - Add Stable Repos"
+     command: "helm"
+     arguments:
+       - "repo"
+       - "add"
+       - "stable"
+       - "https://kubernetes-charts.storage.googleapis.com/"
+
+  - exec:
+      description: "Helm3 - Repo Update"
+      command: "helm"
+      arguments:
+        - "repo"
+        - "update"
+
+  - exec: 
+      # This will fail for now pending an NGINX chart update in progress
+      description: "Helm3 - Upgrade NGINX"
+      command: "helm"
+      arguments: 
+        - "upgrade" 
+        - "--reuse-values"
+        - "nginx-ingress"
+        - "stable/nginx-ingress"
+        - "--set"
+        - "controller.service.omitClusterIP=true"
+
   - exec: 
       description: "Helm Upgrade Rudr"
       command: "helm"
@@ -43,6 +95,14 @@ uninstall:
       arguments: 
         - "delete" 
         - "rudr"
+  
+  - exec: 
+      description: "Helm3 - Uninstall NGINX"
+      command: "helm"
+      arguments: 
+        - "delete" 
+        - "nginx-ingress"
+
 
 credentials:
 - name: kubeconfig

@@ -1,0 +1,14 @@
+apiVersion: core.oam.dev/v1alpha1
+kind: ComponentSchematic
+metadata:
+  name: nodeapp-v1
+  annotations:
+    dapr.io/enabled: "true"
+    dapr.io/id: "nodeapp"
+    dapr.io/port: "3000"  
+spec:
+  workloadType: core.oam.dev/v1alpha1.Worker
+  containers:
+    - name: nodeapp
+      image: dapriosamples/hello-k8s-node     
+      imagePullPolicy: Always

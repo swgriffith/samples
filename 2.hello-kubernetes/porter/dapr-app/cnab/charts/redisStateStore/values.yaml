@@ -1,0 +1,4 @@
+# Default values for chart
+deploy:
+  redisPasswd: defaultpw
+  
