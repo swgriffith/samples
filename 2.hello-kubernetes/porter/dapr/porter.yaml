@@ -1,8 +1,8 @@
-name: dapr-app-install
+name: dapr-install
 version: 0.1.0
-description: "Porter installer for a demo Dapr Application"
-invocationImage: stevegriffith/dapr-app-install:0.1.0
-tag: stevegriffith/dapr-app-install:0.1.0
+description: "Porter installer for the Dapr Runtime"
+invocationImage: stevegriffith/dapr-install:0.1.0
+tag: stevegriffith/dapr-install:0.1.0
 dockerfile: Dockerfile.base
 
 mixins:
@@ -63,25 +63,7 @@ install:
       command: "sleep"
       arguments:
         - "2m"
-        
-  - exec:
-      description: "Install Dapr Application Component Specification"
-      command: "kubectl"
-      arguments:
-        - "apply"
-        - "-f"
-        - "cnab/manifests/node-app-component.yaml"
-        - "-f"
-        - "cnab/manifests/python-app-component.yaml"
-        
-  - exec:
-      description: "Install Dapr Application Configuration"
-      command: "kubectl"
-      arguments:
-        - "apply"
-        - "-f"
-        - "cnab/manifests/dapr-demo-app-config.yaml"
-
+ 
 upgrade:
   - exec: 
       description: "ToDo"
@@ -90,18 +72,6 @@ upgrade:
         - "ToDo" 
 
 uninstall:
-  - exec:
-      description: "Uninstall Dapr Application Configuration"
-      command: "kubectl"
-      arguments:
-        - "delete"
-        - "-f"
-        - "cnab/manifests/dapr-demo-app-config.yaml"
-        - "-f"
-        - "cnab/manifests/node-app-component.yaml"
-        - "-f"
-        - "cnab/manifests/python-app-component.yaml"        
-
   - exec:
       description: "Helm3 - Uninstall Redis State Store Component"
       command: "helm"

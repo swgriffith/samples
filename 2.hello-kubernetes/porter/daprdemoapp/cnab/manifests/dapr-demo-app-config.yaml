@@ -1,0 +1,19 @@
+apiVersion: core.oam.dev/v1alpha1
+kind: ApplicationConfiguration
+metadata:
+  name: dapr-demo
+spec:
+  components:
+  - name: nodeapp-v1
+    instanceName: nodeapp-dapr 
+    traits:
+      - name: ingress
+        parameterValues:
+          - name: hostname
+            value: dapr-demo.oam.io        
+          - name: path
+            value: / 
+          - name: service_port
+            value: 80             
+  - name: pythonapp-v1
+    instanceName: pythonapp-dapr
