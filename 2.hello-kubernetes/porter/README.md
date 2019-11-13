@@ -11,6 +11,8 @@ To build and deploy this via Porter you'll need to run the following commands (*
 ```bash
 # Clone the repo
 git clone https://github.com/swgriffith/samples.git
+cd samples
+git checkout porter-oam
 
 # Build the Rudr bundle
 cd samples/2.hello-kubernetes/porter/rudr 
