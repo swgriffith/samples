@@ -5,7 +5,7 @@ The following shows the process for deploying a Dapr application using the OAM s
 * [OAM](https://openappmodel.io/)
 * [Rudr](https://github.com/oam-dev/rudr/blob/master/docs/README.md)
 
-To build and deploy this via Porter you'll need to run the following commands (**Note:** Rudr and the Dapr app have been kept separate in this implementation, but could be combined.)
+To build and deploy this via Porter you'll need to run the following commands (**Note:** Rudr, the Dapr Runtime, and the Dapr app have been kept separate in this implementation, but could be combined.)
 
 #### Rudr Install Bundle
 ```bash
@@ -46,14 +46,7 @@ rudr-85cc758698-kwrb4                           1/1     Running   0          51s
 cd samples/2.hello-kubernetes/porter/dapr
 
 # If you've already generated the credentials file above you can either reuse that or create a separate one for the dapr install
-porter credentials generate dapr-app-install
-
-# Output should look like the following:
-Generating new credential dapr-app-install from bundle rudr-install
-==> 1 credentials required for bundle rudr-install
-? How would you like to set credential "kubeconfig" file path
-? Enter the path that will be used to set credential "kubeconfig" /Users/griffith/.kube/config
-Saving credential to /Users/griffith/.porter/credentials/dapr-app-install.yaml
+porter credentials generate dapr-install
 
 # for debugging issues you can add the --debug flag below
 porter build
@@ -61,7 +54,7 @@ porter build
 # Install the Dapr App bundle being sure to set a password parameter value for your redis
 # NOTE: The following will take a few minutes to complete, as there are pauses built in for the Dapr
 # runtime and for Redis to come online.
-porter install -c ~/.porter/credentials/dapr-app-install.yaml --param redisPasswd=<YourRedisPassword>
+porter install -c ~/.porter/credentials/dapr-install.yaml --param redisPasswd=<YourRedisPassword>
 
 # Check to make sure your pods deployed successfully
 kubectl get pods
@@ -85,13 +78,6 @@ cd samples/2.hello-kubernetes/porter/daprdemoapp
 
 # Again, if you've already generated the credentials file above you can either reuse that or create a separate one for the dapr app
 porter credentials generate dapr-app-install
-
-# Output should look like the following:
-Generating new credential dapr-app-install from bundle rudr-install
-==> 1 credentials required for bundle rudr-install
-? How would you like to set credential "kubeconfig" file path
-? Enter the path that will be used to set credential "kubeconfig" /Users/griffith/.kube/config
-Saving credential to /Users/griffith/.porter/credentials/dapr-app-install.yaml
 
 # for debugging issues you can add the --debug flag below
 porter build
@@ -151,7 +137,7 @@ porter uninstall -c ~/.porter/credentials/dapr-app-install.yaml
 
 # Uninstall the Dapr Runtime from the dapr directory
 cd samples/2.hello-kubernetes/porter/dapr
-porter uninstall -c ~/.porter/credentials/dapr-app-install.yaml --param redisPasswd=<YourRedisPassword> 
+porter uninstall -c ~/.porter/credentials/dapr-install.yaml --param redisPasswd=<YourRedisPassword> 
 
 # Uninstall Rudr from the rudr directory
 porter uninstall -c ~/.porter/credentials/rudr-creds.yaml  
@@ -181,7 +167,7 @@ To install the app using the published bundles
 porter install -t stevegriffith/rudr-install:0.1.0 -c ~/.porter/credentials/rudr-creds.yaml 
 
 # Dapr Runtime Install
-porter install -t stevegriffith/dapr-install:0.1.0 -c ~/.porter/credentials/dapr-app-install.yaml --param redisPasswd=<YourRedisPassword>
+porter install -t stevegriffith/dapr-install:0.1.0 -c ~/.porter/credentials/dapr-install.yaml --param redisPasswd=<YourRedisPassword>
 
 # Dapr Demo App Install
 porter install -t stevegriffith/dapr-app-install:0.1.0 -c ~/.porter/credentials/dapr-app-install.yaml
@@ -189,12 +175,12 @@ porter install -t stevegriffith/dapr-app-install:0.1.0 -c ~/.porter/credentials/
 
 To uninstall the app using the published bundles
 ```bash
-# Rudr Uninstall
-porter uninstall -t stevegriffith/rudr-install:0.1.0 -c ~/.porter/credentials/rudr-creds.yaml 
+# Dapr Demo App Uninstall
+porter uninstall -t stevegriffith/dapr-app-install:0.1.0 -c ~/.porter/credentials/dapr-app-install.yaml
 
 # Dapr Runtime Uninstall
 porter uninstall -t stevegriffith/dapr-install:0.1.0 -c ~/.porter/credentials/dapr-app-install.yaml --param redisPasswd=<YourRedisPassword>
 
-# Dapr Demo App Uninstall
-porter uninstall -t stevegriffith/dapr-app-install:0.1.0 -c ~/.porter/credentials/dapr-app-install.yaml
+# Rudr Uninstall
+porter uninstall -t stevegriffith/rudr-install:0.1.0 -c ~/.porter/credentials/rudr-creds.yaml 
 ```
