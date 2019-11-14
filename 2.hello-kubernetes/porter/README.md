@@ -15,7 +15,7 @@ cd samples
 git checkout porter-oam
 
 # Build the Rudr bundle
-cd samples/2.hello-kubernetes/porter/rudr 
+cd 2.hello-kubernetes/porter/rudr 
 
 # Generate your credentials file, which will ask you to set the fully qualified location of you .kube/config
 porter credentials generate rudr-creds 
@@ -141,7 +141,8 @@ porter uninstall -c ~/.porter/credentials/dapr-app-install.yaml
 cd samples/2.hello-kubernetes/porter/dapr
 porter uninstall -c ~/.porter/credentials/dapr-install.yaml --param redisPasswd=<YourRedisPassword> 
 
-# Uninstall Rudr from the rudr directory
+# Uninstall Rudr from the rudr directory'
+cd samples/2.hello-kubernetes/porter/rudr
 porter uninstall -c ~/.porter/credentials/rudr-creds.yaml  
 
 # Confirm uninstall was clean and that no components are remaining
