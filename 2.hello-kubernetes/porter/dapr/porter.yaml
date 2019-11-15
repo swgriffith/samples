@@ -2,7 +2,7 @@ name: dapr-install
 version: 0.1.0
 description: "Porter installer for the Dapr Runtime"
 invocationImage: stevegriffith/dapr-install:0.1.0
-tag: stevegriffith/dapr-install:0.1.0
+tag: stevegriffith/dapr-bundle:0.1.0
 dockerfile: Dockerfile.base
 
 mixins:

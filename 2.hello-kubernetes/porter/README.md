@@ -167,23 +167,23 @@ porter publish
 To install the app using the published bundles
 ```bash
 # Rudr install
-porter install -t stevegriffith/rudr-install:0.1.0 -c ~/.porter/credentials/rudr-creds.yaml 
+porter install -t stevegriffith/rudr-bundle:0.1.0 -c ~/.porter/credentials/rudr-creds.yaml 
 
 # Dapr Runtime Install
-porter install -t stevegriffith/dapr-install:0.1.0 -c ~/.porter/credentials/dapr-install.yaml --param redisPasswd=<YourRedisPassword>
+porter install -t stevegriffith/dapr-bundle:0.1.0 -c ~/.porter/credentials/dapr-install.yaml --param redisPasswd=<YourRedisPassword>
 
 # Dapr Demo App Install
-porter install -t stevegriffith/dapr-app-install:0.1.0 -c ~/.porter/credentials/dapr-app-install.yaml
+porter install -t stevegriffith/dapr-app-bundle:0.1.0 -c ~/.porter/credentials/dapr-app-install.yaml
 ```
 
 To uninstall the app using the published bundles
 ```bash
 # Dapr Demo App Uninstall
-porter uninstall -t stevegriffith/dapr-app-install:0.1.0 -c ~/.porter/credentials/dapr-app-install.yaml
+porter uninstall -t stevegriffith/dapr-app-bundle:0.1.0 -c ~/.porter/credentials/dapr-app-install.yaml
 
 # Dapr Runtime Uninstall
-porter uninstall -t stevegriffith/dapr-install:0.1.0 -c ~/.porter/credentials/dapr-app-install.yaml --param redisPasswd=<YourRedisPassword>
+porter uninstall -t stevegriffith/dapr-bundle:0.1.0 -c ~/.porter/credentials/dapr-app-install.yaml --param redisPasswd=<YourRedisPassword>
 
 # Rudr Uninstall
-porter uninstall -t stevegriffith/rudr-install:0.1.0 -c ~/.porter/credentials/rudr-creds.yaml 
+porter uninstall -t stevegriffith/rudr-bundle:0.1.0 -c ~/.porter/credentials/rudr-creds.yaml 
 ```

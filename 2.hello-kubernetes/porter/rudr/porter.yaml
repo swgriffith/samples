@@ -2,7 +2,7 @@ name: rudr-install
 version: 0.1.0
 description: "Porter installer for Rudr"
 invocationImage: stevegriffith/rudr-install:0.1.0
-tag: stevegriffith/rudr-install:0.1.0
+tag: stevegriffith/rudr-bundle:0.1.0
 dockerfile: Dockerfile.base
 
 mixins:
